@@ -9,6 +9,8 @@ import Column from 'primevue/column';
 import InputText from 'primevue/inputtext';
 import Button from 'primevue/button';
 
+let hlsjs;
+
 const Monitor = defineComponent({
   render() {
 
@@ -52,13 +54,11 @@ const Monitor = defineComponent({
     const loading = ref(false);
     const player = ref(undefined)
 
-    const hlsjs = ref(undefined)
 
     const cachedHlsjsLevels = ref([])
 
     return {
       videoSrc, loading,
-      hlsjs,
       player,
     }
   },
@@ -105,12 +105,12 @@ const Monitor = defineComponent({
 
     newHlsjsInstance() {
       this.destroyHlsjs()
-      this.hlsjs = new Hls(this.hlsjsDefaults())
+      hlsjs = new Hls(this.hlsjsDefaults())
     },
     destroyHlsjs() {
-      if (this.hlsjs) {
-        this.hlsjs.destroy()
-        this.hlsjs = null
+      if (hlsjs) {
+        hlsjs.destroy()
+        hlsjs = null
       }
       this.releasePlayerSource()
     },
@@ -131,8 +131,8 @@ const Monitor = defineComponent({
       //   }
       // })
 
-      this.hlsjs.loadSource(this.videoSrc)
-      this.hlsjs.attachMedia(this.player)
+      hlsjs.loadSource(this.videoSrc)
+      hlsjs.attachMedia(this.player)
       this.player.play()
     },
   }
